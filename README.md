@@ -13,7 +13,7 @@ The last argument is optional, allowing you to see the movements of the dancers 
 
 
 ## Running the client:
-Connect to the game server using the same port.  A sample client (for both spoiler and choreographer has been provided).
+Connect to the game server using the same port.  A sample client (for both spoiler and choreographer) has been provided.
 
 
 ## Spoiler
@@ -34,7 +34,7 @@ If the star placement is invalid, the server will instead send the choreographer
 The choreographer's moves will be sent to the server as a pair of x,y coordinates for starting position and ending position of each dancer that the choreographer wants to
 move, separated by spaces.  The sample choreographer also shows the format.
 
-This means that some can remain still (if towards the end of the dance).  In addition, you can also send moves so that the start and end position of a dancer is the same.  The behavior is identical.
+This means that some can remain still by omitting the coordinates for that dancer (if towards the end of the dance).  In addition, you can also send moves so that the start and end position of a dancer is the same.  The behavior is identical.
 
 After each move has been validated, the server will send a message of "#" to the choreographer, requesting the next set of moves.
 
