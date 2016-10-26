@@ -42,12 +42,11 @@ When the game is complete (all dancers have been paired up with the other color)
 
 
 ## Submission
-Please send your files to yw2336@nyu.edu with a bash script that accepts the following 4 parameters in order:
+Please send your files to yw2336@nyu.edu with two bash scripts that accepts the following 4 parameters in order (one for spoiler and one for choreographer):
 
 ```
-BASH_FILE <string:dancer_locations> <int:port_number> <int:board_size> <int:number_of_stars>
+<team_name>_spoiler.sh <string:dancer_locations> <int:port_number> <int:board_size> <int:number_of_stars>
+<team_name>_choreographer.sh <string:dancer_locations> <int:port_number> <int:board_size> <int:number_of_stars>
 ```
-
-It is expected that the implementation is to run correctly as both positions (spoiler and choreographer), depending on the order that it connects to the server.
 
 If your solution also requires special attention (ie, python-3.0), please make sure that your script handles that.
