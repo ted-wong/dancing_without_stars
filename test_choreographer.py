@@ -64,6 +64,8 @@ counter = 0
 data = ""
 while 1:
 	data = s.recv(1024)
+	if "$" in data:
+		break
 
 	moves = str(counter)
 	moves += " 2 " + str(counter+1) + " 2"
