@@ -82,9 +82,11 @@ def update_stars(stars):
 	i = 0
 	while i < len(star):
 		if int(star[i]) < 0 or int(star[i]) >= len(board) or int(star[i+1]) < 0 or int(star[i+1]) >= len(board):
-			print "Ignoring star at {} {}".format(star[0], star[1])
+			print "Invalid star at {} {}".format(star[0], star[1])
+			return False
 		elif board[int(star[i])][int(star[i+1])] != '.':
-			print "Ignoring star at {} {} -> {}".format(star[i], star[i+1], board[int(star[i])][int(star[i+1])])
+			print "Invalid star at {} {} -> {}".format(star[i], star[i+1], board[int(star[i])][int(star[i+1])])
+			return False
 		else:
 			board[int(star[i])][int(star[i+1])] = 'S'
 			star_count += 1
@@ -154,6 +156,7 @@ def update_dancers(moves):
 	new_board = copy.deepcopy(board)
 	i = 0
 	num_dancers = len(red)
+	num_dancers_moved = 0
 	while i < len(m):
 		start = [int(m[i]), int(m[i+1])]
 		end = [int(m[i+2]), int(m[i+3])]
@@ -165,6 +168,7 @@ def update_dancers(moves):
 				new_board[end[0]][end[1]] = 'R'
 				index = red.index([start[0], start[1]])
 				red[index] = [end[0], end[1]]
+				num_dancers_moved += 1
 			else:
 				return False
 		elif board[start[0]][start[1]] == 'B':
@@ -173,11 +177,15 @@ def update_dancers(moves):
 				new_board[end[0]][end[1]] = 'B'
 				index = blue.index([start[0], start[1]])
 				blue[index] = [end[0], end[1]]
+				num_dancers_moved += 1
 			else:
 				return False
 		else:
 			return False
 		i += 4
+
+	if num_dancers_moved > num_dancers:
+		return False
 
 	# check if new_board has same number of dancers
 	# such that multiple ones dont go to same spot, while allowing for swapping of dancers
@@ -268,7 +276,7 @@ def run_game():
 		if first_move:
 			stars += "#"
 			s.send(stars, 1)
-			print "sent star locations"
+#			print "sent star locations"
 			first_move = False
 		else:
 			s.send("#", 1)
