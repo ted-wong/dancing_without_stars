@@ -1,15 +1,17 @@
 # dancing_without_stars
 
-# Running the game:
+## Running the game:
 
 ```
 python game.py <string:dancer_locations> <int:port_number> <int:board_size> <int:number_of_stars> [bool:print_board]
 ```
 
-# Running the client:
+The last argument is optional, allowing you to see the movements of the dancers through an ASCII representation of the board.
+
+
+## Running the client:
 Connect to the game server using the same port.  A sample client (for both spoiler and choreographer has been provided).
 
-The last argument is optional, allowing you to see the movements of the dancers through an ASCII representation of the board.
 
 ## Spoiler
 As the spoiler, wait for a message from the server containing the string "^", then send the coordinates of the stars in a string of x,y coordinates separated by spaces.
