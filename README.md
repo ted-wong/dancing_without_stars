@@ -32,11 +32,15 @@ As the choreographer, you will receive the locations of the stars in the same fo
 If the star placement is invalid, the server will instead send the choreographer a message containing "$" to signal that the game has ended.
 
 The choreographer's moves will be sent to the server as a pair of x,y coordinates for starting position and ending position of each dancer that the choreographer wants to
-move, separated by spaces.  The sample choreographer also shows the format.
+move, separated by spaces.  The sample choreographer has an example of the required format.
+
+```
+dancer1_start_x dancer1_start_y dancer1_end_x dancer1_end_y dancer2_start_x dancer2_start_y dancer2_end_x dancer2_end_y ...
+```
 
 This means that some can remain still by omitting the coordinates for that dancer (if towards the end of the dance).  In addition, you can also send moves so that the start and end position of a dancer is the same.  The behavior is identical.
 
-After each move has been validated, the server will send a message of "#" to the choreographer, requesting the next set of moves.
+After each move has been validated and updated in the game, the server will send a message of "#" to the choreographer, requesting the next set of moves.
 
 When the game is complete (all dancers have been paired up with the other color), the server will send the choreographer a message of "$" so that the choreographer can close the socket.  The server will also show the number of steps required to finish the dance.
 
