@@ -39,3 +39,15 @@ This means that some can remain still by omitting the coordinates for that dance
 After each move has been validated, the server will send a message of "#" to the choreographer, requesting the next set of moves.
 
 When the game is complete (all dancers have been paired up with the other color), the server will send the choreographer a message of "$" so that the choreographer can close the socket.  The server will also show the number of steps required to finish the dance.
+
+
+## Submission
+Please send your files to yw2336@nyu.edu with a bash script that accepts the following 4 parameters in order:
+
+```
+BASH_FILE <string:dancer_locations> <int:port_number> <int:board_size> <int:number_of_stars>
+```
+
+It is expected that the implementation is to run correctly as both positions (spoiler and choreographer), depending on the order that it connects to the server.
+
+If your solution also requires special attention (ie, python-3.0), please make sure that your script handles that.
