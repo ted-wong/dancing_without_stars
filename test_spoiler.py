@@ -4,7 +4,7 @@ import sys
 import random
 
 if len(sys.argv) < 5:
-	print "python game.py <string:dancer_locations> <int:port_number> <int:board_size> <int:number_of_stars>"
+	print "python test_spoiler.py <string:dancer_locations> <int:port_number> <int:board_size> <int:number_of_stars>"
 	exit()
 	
 HOST = 'localhost'
