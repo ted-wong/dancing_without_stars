@@ -1,5 +1,8 @@
 # dancing_without_stars
 
+
+For any questions or bugs, please email yw2336@nyu.edu.
+
 ## Running the game:
 
 ```
