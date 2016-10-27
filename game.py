@@ -3,6 +3,7 @@ import sys
 import socket
 import time
 import copy
+import os
 
 # server
 s = []
@@ -248,6 +249,12 @@ def game_finished(board, red, blue):
 
 
 def print_board():
+	# clear the screen to keep the board be displayed at the same place
+	cmd = "clear"
+	if sys.platform == "win32":
+		cmd = "cls"
+	os.system(cmd)
+	
 	for r in board:
 		for c in r:
 			print c,
