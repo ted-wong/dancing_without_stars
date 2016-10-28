@@ -154,10 +154,17 @@ def update_dancers(moves):
 	global blue
 
 	m = moves.split()
-	new_board = copy.deepcopy(board)
+	new_board = [['.' for i in range(len(board))] for j in range(len(board))]
+	for i in range(len(board)):
+		for j in range(len(board)):
+			if board[i][j] == 'S':
+				new_board[i][j] = 'S'
+	new_red = []
+	new_blue = []
+	
 	i = 0
 	num_dancers = len(red)
-	num_dancers_moved = 0
+	
 	while i < len(m):
 		start = [int(m[i]), int(m[i+1])]
 		end = [int(m[i+2]), int(m[i+3])]
@@ -165,29 +172,30 @@ def update_dancers(moves):
 			return False
 		if board[start[0]][start[1]] == 'R':
 			if board[end[0]][end[1]] != 'S':
-				new_board[start[0]][start[1]] = '.'
 				new_board[end[0]][end[1]] = 'R'
-				index = red.index([start[0], start[1]])
-				red[index] = [end[0], end[1]]
-				num_dancers_moved += 1
+				new_red.append([end[0], end[1]])
+				red.remove([start[0], start[1]])
 			else:
 				return False
 		elif board[start[0]][start[1]] == 'B':
 			if board[end[0]][end[1]] != 'S':
-				new_board[start[0]][start[1]] = '.'
 				new_board[end[0]][end[1]] = 'B'
-				index = blue.index([start[0], start[1]])
-				blue[index] = [end[0], end[1]]
-				num_dancers_moved += 1
+				new_blue.append([end[0], end[1]])
+				blue.remove([start[0], start[1]])
 			else:
 				return False
 		else:
 			return False
 		i += 4
 
-	if num_dancers_moved > num_dancers:
-		return False
-
+	# copy unmoved pieces over to new state
+	for r in red:
+		new_board[r[0]][r[1]] = 'R'
+		new_red.append(r)
+	for b in blue:
+		new_board[b[0]][b[1]] = 'B'
+		new_blue.append(b)
+		
 	# check if new_board has same number of dancers
 	# such that multiple ones dont go to same spot, while allowing for swapping of dancers
 	red_count = 0
@@ -199,6 +207,8 @@ def update_dancers(moves):
 		return False
 
 	board = copy.deepcopy(new_board)
+	red = copy.deepcopy(new_red)
+	blue = copy.deepcopy(new_blue)
 	
 	return True
 
@@ -219,7 +229,7 @@ def get_nearby(point, dancer):
 		nearby.append([point[0]+1, point[1]])
 
 	# check bottom
-	if point[1] > 0 and board[point[0]][point[1]-1] == dancer:
+	if point[1] > 0 and board[point[0]][point[1]+1] == dancer:
 		nearby.append([point[0], point[1]+1])
 	
 	return nearby
@@ -250,10 +260,10 @@ def game_finished(board, red, blue):
 
 def print_board():
 	# clear the screen to keep the board be displayed at the same place
-	cmd = "clear"
-	if sys.platform == "win32":
-		cmd = "cls"
-	os.system(cmd)
+#	cmd = "clear"
+#	if sys.platform == "win32":
+#		cmd = "cls"
+#	os.system(cmd)
 	
 	for r in board:
 		for c in r:
@@ -322,4 +332,5 @@ if len(sys.argv) < 5:
 parse_input(sys.argv[1])
 setup_server(int(sys.argv[2]))
 setup_board(int(sys.argv[3]))
+print_board()
 run_game()
