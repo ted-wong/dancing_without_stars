@@ -217,11 +217,11 @@ def get_nearby(point, dancer):
 	nearby = []
 
 	# check top
-	if (point[1] < len(board)-1) and board[point[0]][point[1]-1] == dancer:
+	if (point[1] > 0) and board[point[0]][point[1]-1] == dancer:
 		nearby.append([point[0], point[1]-1])
 
 	# check left
-	if point[0] > 0 and board[point[0]-1][point[1]] == dancer:
+	if (point[0] > 0) and board[point[0]-1][point[1]] == dancer:
 		nearby.append([point[0]-1, point[1]])
 
 	# check right
@@ -229,7 +229,7 @@ def get_nearby(point, dancer):
 		nearby.append([point[0]+1, point[1]])
 
 	# check bottom
-	if point[1] > 0 and board[point[0]][point[1]+1] == dancer:
+	if (point[1] < len(board)-1) and board[point[0]][point[1]+1] == dancer:
 		nearby.append([point[0], point[1]+1])
 	
 	return nearby
