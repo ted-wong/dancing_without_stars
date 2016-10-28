@@ -332,5 +332,4 @@ if len(sys.argv) < 5:
 parse_input(sys.argv[1])
 setup_server(int(sys.argv[2]))
 setup_board(int(sys.argv[3]))
-print_board()
 run_game()
