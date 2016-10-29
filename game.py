@@ -212,7 +212,7 @@ def update_dancers(moves):
 	
 	return True
 
-def get_nearby(point, dancer):
+def get_nearby(board, point, dancer):
 
 	nearby = []
 
@@ -241,7 +241,7 @@ def game_finished(board, red, blue):
 		return True
 
 	for r in red:
-		nearby_blues = get_nearby(r, 'B')
+		nearby_blues = get_nearby(board, r, 'B')
 		for nearby_blue in nearby_blues:
 			new_red = copy.deepcopy(red)
 			new_red.remove(r)
