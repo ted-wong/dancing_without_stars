@@ -23,7 +23,7 @@ class Server:
 
     def receive(self, player):
         while(1):
-            data = self.connection[player].recv(1024)
+            data = self.connection[player].recv(4096)
             while not data:
                 continue
             return data

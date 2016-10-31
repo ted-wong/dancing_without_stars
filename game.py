@@ -154,6 +154,11 @@ def update_dancers(moves):
 	global blue
 
 	m = moves.split()
+	
+	if len(m) % 4 != 0:
+		print "not multiple of 4"
+		return False
+	
 	new_board = [['.' for i in range(len(board))] for j in range(len(board))]
 	for i in range(len(board)):
 		for j in range(len(board)):
