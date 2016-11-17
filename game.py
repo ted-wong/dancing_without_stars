@@ -154,11 +154,11 @@ def update_dancers(moves):
 	global blue
 
 	m = moves.split()
-	
+
 	if len(m) % 4 != 0:
-		print "not multiple of 4"
+		print "Move list isn't a multiple of 4"
 		return False
-	
+
 	new_board = [['.' for i in range(len(board))] for j in range(len(board))]
 	for i in range(len(board)):
 		for j in range(len(board)):
@@ -174,22 +174,34 @@ def update_dancers(moves):
 		start = [int(m[i]), int(m[i+1])]
 		end = [int(m[i+2]), int(m[i+3])]
 		if not is_valid_dancer_move(start, end):
+			print "Move is not adjacent to starting location"
 			return False
 		if board[start[0]][start[1]] == 'R':
 			if board[end[0]][end[1]] != 'S':
 				new_board[end[0]][end[1]] = 'R'
 				new_red.append([end[0], end[1]])
-				red.remove([start[0], start[1]])
+				if [start[0], start[1]] in red:
+					red.remove([start[0], start[1]])
+				else:
+					print "Already moved red dancer at location"
+					return False
 			else:
+				print "Cannot move red dancer to star"
 				return False
 		elif board[start[0]][start[1]] == 'B':
 			if board[end[0]][end[1]] != 'S':
 				new_board[end[0]][end[1]] = 'B'
 				new_blue.append([end[0], end[1]])
-				blue.remove([start[0], start[1]])
+				if [start[0], start[1]] in blue:
+					blue.remove([start[0], start[1]])
+				else:
+					print "Already moved blue dancer at location"
+					return False
 			else:
+				print "Cannot move blue dancer to star"
 				return False
 		else:
+			print "No dancer at starting location", start
 			return False
 		i += 4
 
@@ -209,6 +221,7 @@ def update_dancers(moves):
 		red_count += new_board[i].count('R')
 		blue_count += new_board[i].count('B')
 	if red_count != num_dancers or blue_count != num_dancers:
+		print "Wrong number of dancers at end of step - you probably tried to move two dancers to the same spot"
 		return False
 
 	board = copy.deepcopy(new_board)
@@ -291,6 +304,8 @@ def run_game():
 		print "Invalid placement of stars, Choreographer wins"
 		return
 
+	print_board()
+
 	first_move = True
 	time_remaining = 120
 	num_moves = 0
@@ -298,13 +313,11 @@ def run_game():
 		if first_move:
 			stars += "#"
 			s.send(stars, 1)
-#			print "sent star locations"
 			first_move = False
 		else:
 			s.send("#", 1)
 		start = time.time()
 		
-		# make sure all data is gathered, check for '$'
 		c_moves = s.receive(1)
 		
 		time_taken = time.time() - start
