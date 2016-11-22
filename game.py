@@ -316,7 +316,7 @@ def run_game():
 	num_moves = 0
 	while 1:
 		if first_move:
-			stars += "#"
+			star_string += "#"
 			s.send(star_string, 1)
 			first_move = False
 		else:
