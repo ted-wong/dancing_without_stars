@@ -75,65 +75,70 @@ def is_invalid_star(point):
 # returns boolean if placement is allowed
 def update_stars(stars):
 	
+	new_star_string = ""
 	star = stars.split()
 	star_count = 0
 	star_locations = []
 	if len(star) > 2*int(sys.argv[4]) or len(star)%2 == 1:
-		return False
+		print "Need two coordinates per star"
+		return (False, "")
 	i = 0
 	while i < len(star):
 		if int(star[i]) < 0 or int(star[i]) >= len(board) or int(star[i+1]) < 0 or int(star[i+1]) >= len(board):
 			print "Invalid star at {} {}".format(star[0], star[1])
-			return False
+			return (False, "")
 		elif board[int(star[i])][int(star[i+1])] != '.':
 			print "Invalid star at {} {} -> {}".format(star[i], star[i+1], board[int(star[i])][int(star[i+1])])
-			return False
+			return (False, "")
 		else:
 			board[int(star[i])][int(star[i+1])] = 'S'
 			star_count += 1
 			star_locations.append([int(star[i]), int(star[i+1])])
+			new_star_string += star[i] + " " + star[i+1] + " "
 		i += 2
 	
 	if star_count > int(sys.argv[4]):
 		print "Added too many stars"
-		return False
+		return (False, "")
 
 	# check for nearby stars ( <=3 is not ok, >= 4 is ok)
 	for location in star_locations:
 		for i in range(location[0], location[0]+1):
 			if is_invalid_star([i, location[1]-3]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 		for i in range(location[0]-1, location[0]+2):
 			if is_invalid_star([i, location[1]-2]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 		for i in range(location[0]-2, location[0]+3):
 			if is_invalid_star([i, location[1]-1]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 		for i in range(location[0]-3, location[0]):
 			if is_invalid_star([i, location[1]]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 		for i in range(location[0]+1, location[0]+4):
 			if is_invalid_star([i, location[1]]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 		for i in range(location[0]-2, location[0]+3):
 			if is_invalid_star([i, location[1]+1]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 		for i in range(location[0]-1, location[0]+2):
 			if is_invalid_star([i, location[1]+2]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 		for i in range(location[0], location[0]+1):
 			if is_invalid_star([i, location[1]+3]):
 				print "Star", location[0], location[1], " too close to another star"
-				return False
+				return (False, "")
 	
-	return True
+	if new_star_string[-1] == " ":
+		new_star_string = new_star_string[:-1]
+	return (True, new_star_string)
 
 # helper for updating dancer positions
 def is_valid_dancer_move(start, end):
@@ -299,11 +304,11 @@ def run_game():
 		s.send("$", 1)
 		print "Spoiler took longer than 2 minutes, Choreographer wins"
 		return
-	if not update_stars(stars):
+	valid, star_string = update_stars(stars)
+	if not valid:
 		s.send("$", 1)
 		print "Invalid placement of stars, Choreographer wins"
 		return
-
 	print_board()
 
 	first_move = True
@@ -312,7 +317,7 @@ def run_game():
 	while 1:
 		if first_move:
 			stars += "#"
-			s.send(stars, 1)
+			s.send(star_string, 1)
 			first_move = False
 		else:
 			s.send("#", 1)
